@@ -132,6 +132,9 @@ function mapStateToProps(state)  {
 			} 
 			case 44: {
 				return 'fas fa-cloud-moon'
+			}
+			default: {
+				return 'fas fa-sun'
 			} 
 		}
 	}

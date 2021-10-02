@@ -1,7 +1,7 @@
 import LocationButton from "./LocationButton";
 import { connect } from 'react-redux';
 
-import { getLocation, getCurrent, getHourly, getDaily } from "../actions";
+import { getCurrent, getHourly, getDaily } from "../actions";
 
 function mapDispatchToProps(dispatch) {
 	return {
