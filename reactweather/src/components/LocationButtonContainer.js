@@ -1,12 +1,14 @@
 import LocationButton from "./LocationButton";
 import { connect } from 'react-redux';
 
-import { actionGetLocation } from "../actions";
+import { getLocation, getCurrent, getHourly, getDaily } from "../actions";
 
 function mapDispatchToProps(dispatch) {
 	return {
 		handleClick: () => {
-			dispatch(actionGetLocation());
+			dispatch(getCurrent());
+			dispatch(getDaily());
+			dispatch(getHourly());
 		}
 	}
 }

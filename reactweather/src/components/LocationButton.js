@@ -3,7 +3,7 @@ const LocationButton = (props) => {
 		<span>
 			<button
 				onClick={props.handleClick}
-				>Get Location</button>
+				>Get Weather</button>
 		</span> 
 	);
 }
