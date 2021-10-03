@@ -1,10 +1,9 @@
 import React from 'react';
-import LocationButton from './LocationButtonContainer';
 
 const CurrentLocation = (props) => {
 	return (  
 			<div>
-				<h1>{props.location.location[0].EnglishName} {props.location.location[0].PrimaryPostalCode} <LocationButton/></h1>
+				<h1>{props.location.location[0].EnglishName} {props.location.location[0].PrimaryPostalCode}</h1>
 			</div>
 	);
 	

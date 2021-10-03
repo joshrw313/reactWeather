@@ -1,9 +1,11 @@
 import Hourly from "./Hourly";
 import { connect } from 'react-redux';
+import getWeatherIcon from "../getWeatherIcon";
 
 function mapStateToProps (state) {
 	return {
-		hourly: state.hourly
+		hourly: state.hourly,
+		getWeatherIcon
 	}
 }
 

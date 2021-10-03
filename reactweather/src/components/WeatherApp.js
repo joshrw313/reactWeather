@@ -10,6 +10,7 @@ import CurrentConditions from "./CurrentConditionsContainer";
 import CurrentLocation from "./LocationContainer";
 import Daily from "./DailyContainer";
 import Hourly from "./HourlyContainer";
+import LocationButton from "./LocationButtonContainer";
 
 const Weather = props => (
 	<div onLoad= {() => props.fetchLocation()}>
@@ -22,7 +23,7 @@ const Weather = props => (
 					{ props.state.location.location && <CurrentLocation /> }
 					<ul className="nav justify-content-center">
 						<li className="nav-link">
-							<Link to="/current">Current Conditions</Link>
+							<Link to="/">Current Conditions</Link>
 						</li>
 						<li className="nav-link">
 							<Link to="/daily">5 day forecast</Link>
@@ -37,20 +38,18 @@ const Weather = props => (
 			</div>
 			<Switch>
 				<Route exact path="/">
-				</Route>
-				<Route exact path="/current">
 					<div>
-						{ props.state.current.current && <CurrentConditions />}
+						{  props.state.current.current ? <CurrentConditions /> : <LocationButton /> }
 					</div>
 				</Route>
 				<Route exact path="/daily">
 					<div>
-						{ props.state.daily.daily && <Daily />}
+						{ props.state.daily.daily ? <Daily /> : <LocationButton /> }
 					</div>
 				</Route>
 				<Route exact path="/hourly">
 					<div>
-						{ props.state.hourly.hourly && <Hourly />}
+						{ props.state.hourly.hourly ? <Hourly /> : <LocationButton /> }
 					</div>
 				</Route>
 				<Route exact path="/donate">

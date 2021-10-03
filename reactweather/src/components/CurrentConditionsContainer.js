@@ -1,7 +1,9 @@
 import CurrentConditions from "./CurrentConditions";
 import { connect } from 'react-redux';
+import getWeatherIcon from "../getWeatherIcon";
 
 function mapStateToProps(state)  {
+	/*
 	function getWeatherIcon () {
 		switch (state.current.current[0].WeatherIcon) {
 			case 1: {
@@ -138,6 +140,7 @@ function mapStateToProps(state)  {
 			} 
 		}
 	}
+*/
 
 		return {
 			current: state.current,
