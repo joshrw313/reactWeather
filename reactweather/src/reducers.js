@@ -1,74 +1,154 @@
-import {
-	GETLOCATION,
-	GETCURRENT,
-	GETDAILY,
-	GETHOURLY
-} from './actions';
+import { combineReducers } from 'redux';
+const GETLOCATIONSTART = 'getLocation_start';
+const GETCURRENTSTART = 'getCurrent_start';
+const GETDAILYSTART = 'getDaily_start';
+const GETHOURLYSTART = 'getHourly_start';
+const GETLOCATIONSUCCESS = 'getLocation_success';
+const GETCURRENTSUCCESS = 'getCurrent_success';
+const GETDAILYSUCCESS = 'getDaily_success';
+const GETHOURLYSUCCESS = 'getHourly_success';
+const GETLOCATIONFAILURE = 'getLocation_failure';
+const GETCURRENTFAILURE = 'getCurrent_failure';
+const GETDAILYFAILURE = 'getDaily_failure';
+const GETHOURLYFAILURE = 'getHourly_failure';
 
-const accuWeatherKey = '';
+const defaultState = {
+	location:{
+		loading: false,
+		error: null,
+		location: null
+	}, 
+	current:{
+		loading: false,
+		error: null,
+		current: null
+	}, 
+	daily:{
+		loading: false,
+		error: null,
+		daily: null
+	}, 
+	hourly:{
+		loading: false,
+		error: null,
+		hourly: null
+	} 
+};
 
-const FetchPosition = {};
-
-const fetchLocation = async () => {
-
-	await navigator.geolocation.getCurrentPosition(async position => {
-		FetchPosition.here =  await fetch(`http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${accuWeatherKey}%20&q=${position.coords.latitude}%2C${position.coords.longitude}`).then(response => response.json()).catch(e => console.log(e));
-	});
-}
-
-
-fetchLocation();
-
-export function setLocation(state, action) {
+const setLocation = (state = defaultState, action) => {
 	switch(action.type) {
-		case GETLOCATION:
-	let Location = FetchPosition.here;
-	console.log(Location);
-		return {
-			location: {
-				name: Location.EnglishName,
-				postalCode: Location.PrimaryPostalCode,
-				locationKey: Location.Key
-			}
-			}
-		case GETCURRENT: {
-			const fetchCurrent = async () => {
-				return await fetch(`http://dataservice.accuweather.com/currentconditions/v1/${state.location.locationKey}?apikey=${accuWeatherKey}&details=true`).then(response => response.json()).catch(e => console.log(e));
-			};
+		case GETLOCATIONSTART:
 			return {
-				location: state.location,
-				currentConditions: fetchCurrent(),
-				dailyForecast: state.dailyForecast,
-				hourlyForecast: state.hourlyForecast
-			}
+				...state.location,
+				loading: true
 
-		}
-		case GETDAILY: {
-			const fetchDaily = async () => {
-				return await fetch(`http://dataservice.accuweather.com/forecasts/v1//daily/5day/${state.location.locationKey}?apikey=${accuWeatherKey}&details=true`).then(response => response.json()).catch(e => console.log(e));
-			};
+			}
+		case GETLOCATIONSUCCESS: {
 			return {
-				location: state.location,
-				currentConditions: state.currentConditions,
-				dailyForecast: fetchDaily(),
-				hourlyForecast: state.hourlyForecast
+				...state.location,
+				loading: false,
+				error: null,
+				location: [action.payload]
 			}
-
-		}
-		case GETHOURLY: {
-			const fetchHourly = async () => {
-				return await fetch(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${state.location.locationKey}?apikey=${accuWeatherKey}&details=true`).then(response => response.json()).catch(e => console.log(e));
-			};
+			}
+		case GETLOCATIONFAILURE: {
 			return {
-				location: state.location,
-				currentConditions: state.currentConditions,
-				dailyForecast: state.dailyForecast,
-				hourlyForecast: fetchHourly() 
-			}
+				...state.location,
+				loading: false,
+				error: action.payload.error
 
+			}
 		}
 		default:
-			console.log(state);
 			return state
 	}
 }
+function setCurrent(state = defaultState, action) {
+	switch(action.type) {
+		case GETCURRENTSTART:
+			return {
+				...state.current,
+				loading: true
+			}
+		case GETCURRENTSUCCESS: {
+			return {
+				...state.current,
+				loading: false,
+				error: null,
+				current: action.payload
+				}
+			}
+		case GETCURRENTFAILURE: {
+			return {
+				...state.current,
+				loading: false,
+				error: action.payload
+			}
+		}
+		default:
+			return state
+	}
+}
+
+function setDaily(state = defaultState, action) {
+	
+	switch(action.type) {
+		case GETDAILYSTART:
+			return {
+				...state.daily,
+				loading: true
+			}
+		case GETDAILYSUCCESS: {
+			return {
+				...state.daily,
+				loading: false,
+				error: null,
+				daily: [action.payload]
+			}
+			}
+		case GETDAILYFAILURE: {
+			return {
+				...state.daily,
+				loading: false,
+				error: action.payload
+			}
+		}
+		default:
+			return state
+	}
+}
+
+function setHourly(state = defaultState, action) {
+	
+	switch(action.type) {
+		case GETHOURLYSTART:
+			return {
+				...state.hourly,
+				loading: true
+			}
+		case GETHOURLYSUCCESS: {
+			return {
+				...state.hourly,
+				loading: false,
+				error: null,
+				hourly: [action.payload]
+			}
+			}
+		case GETHOURLYFAILURE: {
+			return {
+				...state.hourly,
+				loading: false,
+				error: action.payload
+			}
+		}
+		default:
+			return state
+	}
+}
+
+export const rootReducer = combineReducers({
+	location: setLocation,
+	current: setCurrent,
+	daily: setDaily,
+	hourly: setHourly
+});
