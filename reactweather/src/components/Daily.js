@@ -3,11 +3,11 @@ const Daily = (props) => {
 	const today = new Date().getDay();
 	return ( 
 		<div className="container-fluid">
-		<h3>5 Day Forecast</h3>
+		<h1>5 Day Forecast</h1>
 		{props.daily.daily[0].DailyForecasts.map(d => {
 			let i = props.daily.daily[0].DailyForecasts.indexOf(d)
 		return (
-		<div className="container-sm">
+		<div className="container-sm" key={i}>
 		<hr/>
 			<div className="row align-items-center">
 				<div className="col">
